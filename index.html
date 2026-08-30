@@ -177,10 +177,17 @@ button{font-family:inherit;}
 .btn-block{ width:100%; }
 .btn:disabled{ opacity:.45; cursor:not-allowed; filter:grayscale(.3); transform:none !important; }
 
+/* ================= SCENES ================= */
+.scene-banner{ position:relative; width:100%; overflow:hidden; }
+.scene-svg{ display:block; width:100%; height:100%; }
+
 /* ================= HOME ================= */
 .home-hero{
   padding:22px 20px 8px; text-align:center; position:relative;
+  overflow:hidden;
 }
+.home-hero .scene-banner{ position:absolute; inset:0; height:100%; z-index:0; }
+.home-hero-content{ position:relative; z-index:1; padding-top:14px; }
 .companion-badge{
   width:100px;height:100px;border-radius:50%;
   background:radial-gradient(circle at 32% 26%, #fff, var(--accent-2) 130%);
@@ -403,9 +410,12 @@ button{font-family:inherit;}
       </div>
     </div>
     <div class="home-hero">
-      <div class="companion-badge" id="home-companion"></div>
-      <h1 class="home-title">אי הכפל</h1>
-      <div class="home-rank" id="home-rank">מגלה טירון</div>
+      <div class="scene-banner" id="home-scene-banner"></div>
+      <div class="home-hero-content">
+        <div class="companion-badge" id="home-companion"></div>
+        <h1 class="home-title">אי הכפל</h1>
+        <div class="home-rank" id="home-rank">מגלה טירון</div>
+      </div>
     </div>
     <div class="xpbar-wrap">
       <div class="xpbar"><i id="xp-fill" style="width:0%"></i></div>
@@ -440,8 +450,8 @@ button{font-family:inherit;}
       <span style="width:40px;"></span>
     </div>
     <div style="padding:18px 18px 30px;">
-      <div class="pcard" id="intro-card">
-        <div class="region-strip" id="intro-strip"></div>
+      <div class="pcard" id="intro-card" style="padding-top:0; overflow:hidden;">
+        <div class="scene-banner" id="intro-scene" style="height:120px; margin:0 -20px 16px;"></div>
         <div id="intro-tagline" class="subtle" style="padding:0;"></div>
         <ul class="tip-list" id="intro-tips"></ul>
         <div class="array-demo" id="intro-array"></div>
@@ -591,7 +601,7 @@ var REGIONS = [
   {id:1, name:"חוף הפתיחה", sub:"היכרות עם המים הרגועים", tables:[2,5,10], color:"var(--r-beach)", dark:"var(--r-beach-dark)", soft:"var(--r-beach-soft)", icon:"beach", demo:{a:5,b:4}, len:10},
   {id:2, name:"יער הבמבוק", sub:"עומק מטה, בין העצים", tables:[3,4], color:"var(--r-jungle)", dark:"var(--r-jungle-dark)", soft:"var(--r-jungle-soft)", icon:"jungle", demo:{a:4,b:6}, len:10},
   {id:3, name:"הרי הערפל", sub:"שבילים תלולים ומתפתלים", tables:[6,9], color:"var(--r-mountain)", dark:"var(--r-mountain-dark)", soft:"var(--r-mountain-soft)", icon:"mountain", demo:{a:9,b:4}, len:10},
-  {id:4, name:"געש האש", sub:"האתגר הכי לוהט באי", tables:[7,8], color:"var(--r-volcano)", dark:"var(--r-volcano-dark)", soft:"var(--r-volcano-soft)", icon:"volcano", demo:{a:7,b:6}, len:10},
+  {id:4, name:"מפלי הלבה", sub:"האתגר הכי לוהט באי", tables:[7,8], color:"var(--r-volcano)", dark:"var(--r-volcano-dark)", soft:"var(--r-volcano-soft)", icon:"volcano", demo:{a:7,b:6}, len:10},
   {id:5, name:"מקדש האוצר", sub:"כל הלוחות ביחד - אתגר-על", tables:[2,3,4,5,6,7,8,9], color:"var(--r-temple)", dark:"var(--r-temple-dark)", soft:"var(--r-temple-soft)", icon:"temple", demo:null, len:12}
 ];
 
@@ -680,6 +690,94 @@ function iconHTML(key, opts){
   var lib = (opts&&opts.lib) || ICONS;
   return lib[key] || "";
 }
+
+/* ================= SCENE ILLUSTRATIONS ================= */
+function sceneSvg(w, h, defs, inner){
+  return '<svg viewBox="0 0 '+w+' '+h+'" class="scene-svg" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">'+
+    '<defs>'+defs+'</defs>'+inner+'</svg>';
+}
+ICONS.scene = {
+  beach: sceneSvg(320,130,
+    '<linearGradient id="skyBeach" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8FD6D8"/><stop offset="1" stop-color="#D7EFE9"/></linearGradient>',
+    '<rect width="320" height="130" fill="url(#skyBeach)"/>'+
+    '<circle cx="256" cy="34" r="20" fill="#F6D989"/>'+
+    '<path d="M0 92c40-14 80-14 120 0s80 14 120 0 60-10 80-2v40H0z" fill="#DCEFE4"/>'+
+    '<path d="M0 108c40-10 80-10 120 0s80 10 120 0 60-8 80-2v24H0z" fill="#F4E6BE"/>'+
+    '<path d="M52 70v38" stroke="#8A6A45" stroke-width="4" stroke-linecap="round"/>'+
+    '<path d="M52 72c-14-10-26-8-34-2 10 8 24 8 34 2z" fill="#5A9E6F"/>'+
+    '<path d="M52 72c14-10 26-8 34-2-10 8-24 8-34 2z" fill="#5A9E6F"/>'+
+    '<path d="M52 68c-4-12 2-20 2-20s10 8 6 20z" fill="#6FB07F"/>'+
+    '<path d="M20 96q8-6 16 0" stroke="#8FD6D8" stroke-width="2.5" fill="none" stroke-linecap="round" opacity=".7"/>'+
+    '<path d="M220 100q10-7 20 0" stroke="#8FD6D8" stroke-width="2.5" fill="none" stroke-linecap="round" opacity=".7"/>'
+  ),
+  jungle: sceneSvg(320,130,
+    '<linearGradient id="skyJungle" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#BFE3C9"/><stop offset="1" stop-color="#E9F3E2"/></linearGradient>',
+    '<rect width="320" height="130" fill="url(#skyJungle)"/>'+
+    '<circle cx="80" cy="36" r="22" fill="#F3E0A0" opacity=".8"/>'+
+    '<path d="M0 100c50-16 100-16 160 0s110 16 160 0v30H0z" fill="#DCEFDF"/>'+
+    '<path d="M40 100V56" stroke="#7A5C3C" stroke-width="6" stroke-linecap="round"/>'+
+    '<path d="M40 60c-22 2-30-14-30-14s18-10 30 4c12-14 30-4 30-4s-8 16-30 14z" fill="#417A53"/>'+
+    '<path d="M120 100V70" stroke="#7A5C3C" stroke-width="5" stroke-linecap="round"/>'+
+    '<circle cx="120" cy="60" r="22" fill="#5A9E6F"/>'+
+    '<circle cx="102" cy="72" r="14" fill="#6FB07F"/>'+
+    '<circle cx="138" cy="72" r="14" fill="#6FB07F"/>'+
+    '<path d="M230 100V64" stroke="#7A5C3C" stroke-width="6" stroke-linecap="round"/>'+
+    '<path d="M230 68c-24 0-34-18-34-18s20-12 34 2c14-14 34-2 34-2s-10 18-34 18z" fill="#3F7D4F"/>'+
+    '<circle cx="272" cy="86" r="10" fill="#6FB07F"/>'
+  ),
+  mountain: sceneSvg(320,130,
+    '<linearGradient id="skyMtn" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#CFC6EC"/><stop offset="1" stop-color="#EDE9F8"/></linearGradient>',
+    '<rect width="320" height="130" fill="url(#skyMtn)"/>'+
+    '<ellipse cx="55" cy="32" rx="24" ry="8" fill="#fff" opacity=".75"/>'+
+    '<ellipse cx="255" cy="26" rx="20" ry="7" fill="#fff" opacity=".65"/>'+
+    '<path d="M120 106L195 40l70 66z" fill="#A594D6"/>'+
+    '<path d="M195 40l16 15-16 10-16-10z" fill="#fff" opacity=".9"/>'+
+    '<path d="M20 106L95 52l60 54z" fill="#8672C4"/>'+
+    '<path d="M95 52l13 12-13 9-13-9z" fill="#fff" opacity=".9"/>'+
+    '<path d="M-10 106L60 66l55 40z" fill="#6E5CA6"/>'+
+    '<path d="M60 66l10 9-10 7-10-7z" fill="#fff" opacity=".85"/>'+
+    '<path d="M-10 118c60-14 120-14 180 0s110 12 150 2v20H-10z" fill="#DCD6EF"/>'
+  ),
+  volcano: sceneSvg(320,130,
+    '<linearGradient id="skyVolc" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E9A377"/><stop offset="1" stop-color="#F6D9BE"/></linearGradient>'+
+    '<linearGradient id="lavaFlow" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFDD8A"/><stop offset="1" stop-color="#E0572B"/></linearGradient>',
+    '<rect width="320" height="130" fill="url(#skyVolc)"/>'+
+    '<path d="M-10 118L110 26l40 34 190 58z" fill="#5A4438"/>'+
+    '<path d="M96 44c10 20-4 26-4 40a12 12 0 0 0 24 0c0-6-4-10-4-10s6 4 6 12a18 18 0 0 1-36 0c0-18 14-24 14-42z" fill="url(#lavaFlow)"/>'+
+    '<ellipse cx="110" cy="112" rx="22" ry="7" fill="#FFC93C" opacity=".85"/>'+
+    '<circle cx="230" cy="40" r="5" fill="#fff" opacity=".55"/>'+
+    '<circle cx="245" cy="30" r="7" fill="#fff" opacity=".5"/>'+
+    '<circle cx="258" cy="44" r="5" fill="#fff" opacity=".55"/>'+
+    '<path d="M-10 120c60-10 120-10 180 0s110 10 150 2v14H-10z" fill="#4A362B"/>'
+  ),
+  temple: sceneSvg(320,130,
+    '<linearGradient id="skyTemple" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F2CE84"/><stop offset="1" stop-color="#FBEACB"/></linearGradient>',
+    '<rect width="320" height="130" fill="url(#skyTemple)"/>'+
+    '<circle cx="256" cy="38" r="24" fill="#F6E2A6"/>'+
+    '<path d="M0 112c60-10 120-10 180 0s90 8 140 0v18H0z" fill="#F4E4BE"/>'+
+    '<path d="M70 60l50-24 50 24z" fill="#DDA53F"/>'+
+    '<rect x="80" y="62" width="10" height="34" fill="#DDA53F"/>'+
+    '<rect x="98" y="62" width="10" height="34" fill="#DDA53F"/>'+
+    '<rect x="116" y="62" width="10" height="34" fill="#DDA53F"/>'+
+    '<rect x="134" y="62" width="10" height="34" fill="#DDA53F"/>'+
+    '<rect x="70" y="96" width="84" height="8" rx="2" fill="#B37F27"/>'+
+    '<rect x="62" y="104" width="100" height="8" rx="2" fill="#B37F27"/>'
+  )
+};
+ICONS.homeScene = sceneSvg(360,150,
+  '<linearGradient id="skyHome" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7FC3C4"/><stop offset="1" stop-color="#F3E0AE"/></linearGradient>',
+  '<rect width="360" height="150" fill="url(#skyHome)"/>'+
+  '<circle cx="60" cy="40" r="22" fill="#FBEFC2" opacity=".9"/>'+
+  '<path d="M-20 108c60-20 120-20 180-2s120 18 180 2v42H-20z" fill="#EAD9A3"/>'+
+  '<path d="M-20 122c60-14 120-14 180-2s120 14 180 2v28H-20z" fill="#F3E6C4"/>'+
+  '<path d="M70 108V64" stroke="#7A5C3C" stroke-width="5" stroke-linecap="round"/>'+
+  '<path d="M70 68c-16-8-26 2-26 2s10 12 26 6c2 16-6 24-6 24" fill="none"/>'+
+  '<path d="M70 68c-16-8-26 2-26 2s10 12 26 6z" fill="#5A9E6F"/>'+
+  '<path d="M70 68c16-8 26 2 26 2s-10 12-26 6z" fill="#6FB07F"/>'+
+  '<path d="M290 116V72" stroke="#7A5C3C" stroke-width="5" stroke-linecap="round"/>'+
+  '<path d="M290 76c-16-8-26 2-26 2s10 12 26 6z" fill="#5A9E6F"/>'+
+  '<path d="M290 76c16-8 26 2 26 2s-10 12-26 6z" fill="#6FB07F"/>'
+);
 
 /* ================= STATE ================= */
 var DEFAULT_STATE = {
@@ -881,6 +979,7 @@ function updateSoundIcons(){
   document.getElementById("btn-sound-quiz").innerHTML = icon;
 }
 function fillStaticIcons(){
+  document.getElementById("home-scene-banner").innerHTML = ICONS.homeScene;
   document.getElementById("pill-coins-home").insertAdjacentHTML("afterbegin", ICONS.coin);
   document.getElementById("pill-streak-home").insertAdjacentHTML("afterbegin", ICONS.flame);
   document.getElementById("pill-coins-quiz").insertAdjacentHTML("afterbegin", ICONS.coin);
@@ -937,7 +1036,7 @@ var currentRegion = null;
 function openRegion(id){
   currentRegion = REGIONS.find(function(r){return r.id===id;});
   document.getElementById("intro-title").innerHTML = '<span class="title-ic">'+ICONS.region[currentRegion.icon]+'</span> '+currentRegion.name;
-  document.getElementById("intro-strip").style.background = currentRegion.color;
+  document.getElementById("intro-scene").innerHTML = ICONS.scene[currentRegion.icon];
   var introCard = document.getElementById("intro-card");
   introCard.style.background = currentRegion.soft;
   introCard.style.boxShadow = "0 3px 0 "+currentRegion.dark+", var(--shadow-sm)";
