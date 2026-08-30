@@ -1,0 +1,1232 @@
+<meta charset="UTF-8">
+<title>אי הכפל</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Suez+One&family=Heebo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<style>
+/* ================= TOKENS ================= */
+:root{
+  --bg:#FFE9B3;
+  --bg-2:#FFD066;
+  --sky:#5FC9E8;
+  --surface:#FFFDF8;
+  --surface-2:#FFF3DC;
+  --ink:#2B2140;
+  --ink-soft:#786A9C;
+  --ink-faint:#B7ADD1;
+  --line:#EEE0C4;
+  --accent:#00BFA6;
+  --accent-dark:#009484;
+  --accent-ink:#FFFFFF;
+  --accent-2:#FFC02E;
+  --accent-2-dark:#E0A100;
+  --accent-2-ink:#4A3005;
+  --good:#3DDC72;
+  --good-dark:#22A855;
+  --bad:#FF5A5A;
+  --bad-dark:#D93B3B;
+  --shadow: 0 16px 32px -12px rgba(43,33,64,.28);
+  --shadow-sm: 0 6px 16px -8px rgba(43,33,64,.22);
+
+  --tile-1:#FF6B57; --tile-1-dark:#E24A34;
+  --tile-2:#3DA9FC; --tile-2-dark:#1C82D6;
+  --tile-3:#FFC93C; --tile-3-dark:#E0A100;
+  --tile-4:#4CD787; --tile-4-dark:#28B266;
+
+  --r-beach:#00BFA6; --r-beach-dark:#009484; --r-beach-soft:#C9F3EA;
+  --r-jungle:#3CB878; --r-jungle-dark:#278F5B; --r-jungle-soft:#D2F1DF;
+  --r-mountain:#8B5CF6; --r-mountain-dark:#6D3FD1; --r-mountain-soft:#E5DBFD;
+  --r-volcano:#FF5A36; --r-volcano-dark:#D93F1E; --r-volcano-soft:#FFDDD0;
+  --r-temple:#FFC02E; --r-temple-dark:#E0A100; --r-temple-soft:#FFEEBE;
+
+  --font-display:'Suez One', 'Heebo', serif;
+  --font-body:'Heebo','Segoe UI',sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F1530;
+    --bg-2:#171F45;
+    --sky:#1B2B55;
+    --surface:#1B2247;
+    --surface-2:#232C58;
+    --ink:#F1EFFF;
+    --ink-soft:#ACA4E0;
+    --ink-faint:#6A6296;
+    --line:#323A6C;
+    --accent:#2EE6C9;
+    --accent-dark:#12B89E;
+    --accent-ink:#08221E;
+    --accent-2:#FFD34D;
+    --accent-2-dark:#E0A100;
+    --accent-2-ink:#3A2704;
+    --good:#4CE68A;
+    --good-dark:#22A855;
+    --bad:#FF7373;
+    --bad-dark:#D93B3B;
+    --shadow: 0 18px 34px -12px rgba(0,0,0,.6);
+    --shadow-sm: 0 6px 18px -8px rgba(0,0,0,.5);
+    --tile-1:#FF6B57; --tile-1-dark:#C43D26;
+    --tile-2:#4DB6FF; --tile-2-dark:#1C6FB0;
+    --tile-3:#FFD34D; --tile-3-dark:#C9971A;
+    --tile-4:#5CE698; --tile-4-dark:#1E9C58;
+    --r-beach:#2EE6C9; --r-beach-dark:#0FAF98; --r-beach-soft:#123B37;
+    --r-jungle:#5CE698; --r-jungle-dark:#22A855; --r-jungle-soft:#123420;
+    --r-mountain:#B49CFF; --r-mountain-dark:#8664E0; --r-mountain-soft:#2B2154;
+    --r-volcano:#FF8A5C; --r-volcano-dark:#D9542E; --r-volcano-soft:#3E2013;
+    --r-temple:#FFD34D; --r-temple-dark:#D9A213; --r-temple-soft:#3E3009;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F1530; --bg-2:#171F45; --sky:#1B2B55; --surface:#1B2247; --surface-2:#232C58;
+  --ink:#F1EFFF; --ink-soft:#ACA4E0; --ink-faint:#6A6296; --line:#323A6C;
+  --accent:#2EE6C9; --accent-dark:#12B89E; --accent-ink:#08221E;
+  --accent-2:#FFD34D; --accent-2-dark:#E0A100; --accent-2-ink:#3A2704;
+  --good:#4CE68A; --good-dark:#22A855; --bad:#FF7373; --bad-dark:#D93B3B;
+  --shadow: 0 18px 34px -12px rgba(0,0,0,.6); --shadow-sm: 0 6px 18px -8px rgba(0,0,0,.5);
+  --tile-1:#FF6B57; --tile-1-dark:#C43D26; --tile-2:#4DB6FF; --tile-2-dark:#1C6FB0;
+  --tile-3:#FFD34D; --tile-3-dark:#C9971A; --tile-4:#5CE698; --tile-4-dark:#1E9C58;
+  --r-beach:#2EE6C9; --r-beach-dark:#0FAF98; --r-beach-soft:#123B37;
+  --r-jungle:#5CE698; --r-jungle-dark:#22A855; --r-jungle-soft:#123420;
+  --r-mountain:#B49CFF; --r-mountain-dark:#8664E0; --r-mountain-soft:#2B2154;
+  --r-volcano:#FF8A5C; --r-volcano-dark:#D9542E; --r-volcano-soft:#3E2013;
+  --r-temple:#FFD34D; --r-temple-dark:#D9A213; --r-temple-soft:#3E3009;
+}
+
+*{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+html,body{margin:0;padding:0;}
+html{ direction:rtl; }
+body{
+  direction:rtl;
+  background:
+    radial-gradient(ellipse 120% 60% at 50% -20%, var(--sky), transparent 60%),
+    linear-gradient(180deg, transparent 0%, var(--bg-2) 55%, var(--bg) 100%);
+  background-color:var(--bg);
+  color:var(--ink);
+  font-family:var(--font-body);
+  min-height:100vh;
+  overflow-x:hidden;
+}
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important;}
+}
+h1,h2,h3,.display{font-family:var(--font-display); font-weight:400; text-wrap:balance;}
+button{font-family:inherit;}
+.tnum{font-variant-numeric:tabular-nums;}
+
+/* ================= SHELL ================= */
+#shell{
+  max-width:480px;
+  margin:0 auto;
+  min-height:100vh;
+  background:var(--surface);
+  box-shadow: var(--shadow);
+  position:relative;
+  display:flex;
+  flex-direction:column;
+}
+@media (min-width:520px){ #shell{ margin:16px auto; min-height:calc(100vh - 32px); border-radius:28px; overflow:hidden;} }
+
+.screen{ display:none; flex-direction:column; flex:1; animation:fadeIn .35s ease; }
+.screen.active{ display:flex; }
+@keyframes fadeIn{ from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);} }
+
+/* ================= TOPBAR ================= */
+.topbar{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:14px 16px; gap:10px;
+  border-bottom:1px solid var(--line);
+  background:var(--surface);
+  position:sticky; top:0; z-index:5;
+}
+.iconbtn{
+  width:42px;height:42px;border-radius:14px;border:none;
+  background:var(--surface-2); color:var(--ink); font-size:19px;
+  display:flex;align-items:center;justify-content:center; cursor:pointer;
+  box-shadow:0 4px 0 var(--line);
+  transition:transform .12s ease, box-shadow .12s ease;
+}
+.iconbtn:active{ transform:translateY(4px); box-shadow:0 0 0 var(--line); }
+.chev{ display:inline-block; transform:scaleX(-1); }
+
+.status-pill{
+  display:flex; align-items:center; gap:6px;
+  background:var(--surface-2);
+  padding:7px 12px; border-radius:999px; font-weight:800; font-size:13px;
+  white-space:nowrap; box-shadow:0 3px 0 var(--line);
+}
+.status-row{ display:flex; gap:8px; align-items:center; overflow-x:auto; }
+
+/* ================= BUTTONS ================= */
+.btn{
+  border:none; cursor:pointer; font-family:var(--font-body); font-weight:900;
+  border-radius:18px; padding:16px 20px; font-size:16px;
+  display:inline-flex; align-items:center; justify-content:center; gap:8px;
+  transition:transform .1s ease, box-shadow .1s ease, filter .12s ease;
+}
+.btn-primary{ background:var(--accent); color:var(--accent-ink); box-shadow:0 5px 0 var(--accent-dark); }
+.btn-primary:active{ transform:translateY(5px); box-shadow:0 0 0 var(--accent-dark); }
+.btn-gold{ background:var(--accent-2); color:var(--accent-2-ink); box-shadow:0 5px 0 var(--accent-2-dark); }
+.btn-gold:active{ transform:translateY(5px); box-shadow:0 0 0 var(--accent-2-dark); }
+.btn-ghost{ background:var(--surface-2); color:var(--ink); box-shadow:0 5px 0 var(--line); }
+.btn-ghost:active{ transform:translateY(5px); box-shadow:0 0 0 var(--line); }
+.btn-block{ width:100%; }
+.btn:disabled{ opacity:.45; cursor:not-allowed; filter:grayscale(.3); transform:none !important; }
+
+/* ================= HOME ================= */
+.home-hero{
+  padding:22px 20px 8px; text-align:center; position:relative;
+}
+.companion-badge{
+  width:100px;height:100px;border-radius:50%;
+  background:radial-gradient(circle at 32% 26%, #fff, var(--accent-2) 130%);
+  border:5px solid var(--surface);
+  display:flex;align-items:center;justify-content:center; font-size:52px;
+  margin:0 auto 10px; box-shadow:0 6px 0 var(--accent-2-dark), var(--shadow-sm);
+  animation:bob 3.4s ease-in-out infinite;
+}
+@keyframes bob{ 0%,100%{transform:translateY(0) rotate(-2deg);} 50%{transform:translateY(-6px) rotate(2deg);} }
+.home-title{ font-size:30px; margin:2px 0 2px; color:var(--ink); }
+.home-rank{ color:var(--ink-soft); font-weight:700; font-size:14px; margin-bottom:14px; }
+
+.xpbar-wrap{ padding:0 20px; margin-bottom:18px; }
+.xpbar{ height:14px; border-radius:999px; background:var(--surface-2); overflow:hidden; box-shadow:inset 0 2px 4px rgba(0,0,0,.12); }
+.xpbar > i{ display:block; height:100%; background:linear-gradient(90deg, var(--accent), var(--accent-2)); border-radius:999px; transition:width .5s ease; }
+.xplabel{ display:flex; justify-content:space-between; font-size:12px; color:var(--ink-soft); margin-top:6px; font-weight:800; }
+
+.home-cta{ padding:4px 20px 10px; }
+.grid2{ display:grid; grid-template-columns:1fr 1fr; gap:14px; padding:10px 20px 26px; }
+.tile{
+  border:none; border-radius:20px; color:#fff;
+  padding:18px 10px; text-align:center; cursor:pointer;
+  display:flex; flex-direction:column; align-items:center; gap:6px;
+  font-family:var(--font-body);
+  transition:transform .1s ease, box-shadow .1s ease;
+}
+.tile:nth-child(1){ background:var(--r-beach); box-shadow:0 5px 0 var(--r-beach-dark); }
+.tile:nth-child(2){ background:var(--r-mountain); box-shadow:0 5px 0 var(--r-mountain-dark); }
+.tile:nth-child(3){ background:var(--r-volcano); box-shadow:0 5px 0 var(--r-volcano-dark); }
+.tile:nth-child(4){ background:var(--r-temple); color:var(--accent-2-ink); box-shadow:0 5px 0 var(--r-temple-dark); }
+.tile:active{ transform:translateY(5px); box-shadow:0 0 0 rgba(0,0,0,.2); }
+.tile .ic{ font-size:28px; filter:drop-shadow(0 2px 2px rgba(0,0,0,.18)); }
+.tile .lb{ font-weight:900; font-size:13px; }
+
+/* ================= MAP / TRAIL ================= */
+.trail-wrap{ padding:20px 22px 40px; position:relative; }
+.trail-wrap::before{
+  content:''; position:absolute; top:26px; bottom:40px; right:calc(50% - 2px);
+  width:5px; border-radius:999px; background:repeating-linear-gradient(var(--accent-2) 0 10px, transparent 10px 20px);
+  z-index:0; opacity:.55;
+}
+.node{
+  position:relative; z-index:1; display:flex; align-items:center; gap:14px;
+  margin-bottom:30px; cursor:pointer;
+}
+.node:nth-child(even){ flex-direction:row-reverse; }
+.node-disc{
+  width:76px; height:76px; min-width:76px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center; font-size:34px;
+  border:5px solid var(--surface); box-shadow:var(--shadow-sm);
+  position:relative;
+}
+.node-disc.locked{ background:var(--surface-2) !important; box-shadow:none !important; filter:grayscale(1); opacity:.6; }
+.node-card{
+  flex:1; background:var(--surface-2); border-radius:18px;
+  padding:13px 16px; box-shadow:0 4px 0 var(--line);
+}
+.node-name{ font-family:var(--font-display); font-size:19px; margin:0 0 2px; }
+.node-sub{ font-size:12px; color:var(--ink-soft); font-weight:700; margin-bottom:7px;}
+.stars-row{ display:flex; gap:3px; }
+.star{ font-size:16px; color:var(--ink-faint); }
+.star.on{ color:var(--accent-2); filter:drop-shadow(0 1px 1px rgba(0,0,0,.15)); }
+.lock-chip{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:22px; }
+
+/* ================= PARCHMENT / CARD ================= */
+.pcard{
+  background:var(--surface-2); border-radius:24px;
+  padding:20px; position:relative; box-shadow:0 5px 0 var(--line), var(--shadow-sm);
+}
+.region-strip{ height:9px; border-radius:999px; margin-bottom:14px; }
+.tip-list{ margin:12px 0 0; padding:0; list-style:none; display:flex; flex-direction:column; gap:10px; }
+.tip-list li{
+  background:var(--surface); border-radius:14px; padding:11px 13px; box-shadow:0 3px 0 var(--line);
+  font-size:14px; line-height:1.55; display:flex; gap:8px; align-items:flex-start;
+}
+.tip-list li b{ flex-shrink:0; color:var(--accent-dark); }
+
+.array-demo{ display:flex; flex-direction:column; align-items:center; gap:10px; margin:16px 0; }
+.array-grid{ display:grid; gap:5px; }
+.array-cell{ width:22px; height:22px; display:flex; align-items:center; justify-content:center; font-size:16px; opacity:0; transform:scale(.4); }
+.array-cell.show{ animation:popIn .32s ease forwards; }
+@keyframes popIn{ to{opacity:1; transform:scale(1);} }
+.array-eq{ font-family:var(--font-display); font-size:20px; }
+
+.mascot-tip{
+  display:flex; gap:10px; align-items:flex-start; background:var(--surface);
+  border-radius:16px; padding:12px; margin-top:14px; font-size:13.5px; box-shadow:0 3px 0 var(--line);
+}
+.mascot-tip .ic{ font-size:26px; }
+
+/* ================= QUIZ ================= */
+.quiz-body{ flex:1; display:flex; flex-direction:column; padding:18px 20px 24px; }
+.progress-track{ display:flex; gap:6px; margin-bottom:22px; }
+.progress-seg{ flex:1; height:10px; border-radius:999px; background:var(--surface-2); overflow:hidden; transition:background .2s ease; }
+.progress-seg.correct{ background:var(--good); }
+.progress-seg.wrong{ background:var(--bad); }
+.progress-seg.current{ background:var(--accent); }
+
+.question-wrap{ flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; text-align:center;}
+.q-label{ color:var(--ink-soft); font-weight:700; font-size:13px; }
+.q-expr{ font-family:var(--font-display); font-size:52px; direction:ltr; }
+.q-hint{ min-height:20px; font-size:13px; color:var(--ink-soft); }
+
+.answers-grid{ display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:24px; }
+.answer-btn{
+  border:none; border-radius:20px;
+  padding:20px 10px; font-size:27px; font-weight:900; cursor:pointer; color:#fff;
+  font-family:var(--font-body); transition:transform .1s ease, box-shadow .1s ease, filter .15s ease;
+}
+.answer-btn:nth-child(1){ background:var(--tile-1); box-shadow:0 6px 0 var(--tile-1-dark); }
+.answer-btn:nth-child(2){ background:var(--tile-2); box-shadow:0 6px 0 var(--tile-2-dark); }
+.answer-btn:nth-child(3){ background:var(--tile-3); box-shadow:0 6px 0 var(--tile-3-dark); }
+.answer-btn:nth-child(4){ background:var(--tile-4); box-shadow:0 6px 0 var(--tile-4-dark); }
+.answer-btn:active{ transform:translateY(6px); box-shadow:0 0 0 rgba(0,0,0,.2) !important; }
+.answer-btn.correct{ background:var(--good) !important; box-shadow:0 6px 0 var(--good-dark) !important; transform:scale(1.04); }
+.answer-btn.wrong{ background:var(--bad) !important; box-shadow:0 6px 0 var(--bad-dark) !important; animation:shake .4s ease; }
+.answer-btn.dim{ opacity:.4; filter:grayscale(.4); }
+.shake{ animation:shake .4s ease; }
+@keyframes shake{ 0%,100%{transform:translateX(0);} 25%{transform:translateX(-6px);} 75%{transform:translateX(6px);} }
+
+.feedback-banner{
+  margin-top:16px; padding:10px 14px; border-radius:14px; font-weight:800; font-size:14px;
+  display:flex; align-items:center; gap:8px; opacity:0; transform:translateY(6px);
+}
+.feedback-banner.show{ opacity:1; transform:translateY(0); transition:all .25s ease; }
+.feedback-banner.good{ background:color-mix(in srgb, var(--good) 20%, var(--surface)); color:var(--good); }
+.feedback-banner.bad{ background:color-mix(in srgb, var(--bad) 18%, var(--surface)); color:var(--bad); }
+
+#screen-arcade{ background:linear-gradient(180deg, var(--r-volcano-soft), var(--r-temple-soft) 70%); }
+/* ================= ARCADE ================= */
+.timer-ring{ width:74px; height:74px; margin:0 auto 8px; position:relative; }
+.timer-ring svg{ transform:rotate(-90deg); width:100%; height:100%; }
+.timer-ring circle{ fill:none; stroke-width:8; }
+.timer-ring .bgc{ stroke:var(--surface-2); }
+.timer-ring .fgc{ stroke:var(--accent-2); stroke-linecap:round; transition:stroke-dashoffset 1s linear; }
+.timer-num{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-weight:900; font-size:20px; }
+.combo-flame{ text-align:center; font-weight:800; color:var(--accent-2); font-size:14px; min-height:20px; }
+
+/* ================= RESULT ================= */
+.result-wrap{ flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:30px 24px; text-align:center; gap:8px; }
+.stars-big{ display:flex; gap:10px; font-size:44px; margin:6px 0 10px; }
+.stars-big span{ opacity:0; transform:scale(0) rotate(-30deg); }
+.stars-big span.on{ animation:starPop .5s cubic-bezier(.3,1.6,.5,1) forwards; color:var(--accent-2); }
+.stars-big span.off{ opacity:1; transform:none; color:var(--ink-faint); }
+@keyframes starPop{ to{opacity:1; transform:scale(1) rotate(0);} }
+.result-stat-row{ display:flex; gap:14px; margin:14px 0; }
+.result-stat{ background:var(--surface-2); border-radius:16px; padding:11px 16px; font-weight:900; box-shadow:0 4px 0 var(--line); }
+.result-stat small{ display:block; color:var(--ink-soft); font-weight:700; font-size:11px; }
+
+/* ================= MASTERY GRID ================= */
+.mastery-wrap{ padding:16px 18px 30px; }
+.mastery-table{ display:grid; gap:4px; margin-top:6px; }
+.mastery-row{ display:flex; align-items:center; gap:6px; }
+.mastery-row-label{ width:30px; text-align:center; font-weight:800; font-size:12px; color:var(--ink-soft); }
+.mastery-cells{ display:flex; gap:4px; flex:1; }
+.mastery-cell{
+  flex:1; aspect-ratio:1; border-radius:8px; display:flex; align-items:center; justify-content:center;
+  font-size:10px; font-weight:900; cursor:pointer; color:var(--accent-2-ink);
+  box-shadow:0 2px 0 rgba(0,0,0,.15); transition:transform .1s ease;
+}
+.mastery-cell:active{ transform:scale(.9); }
+.legend-row{ display:flex; gap:10px; align-items:center; margin-top:16px; font-size:12px; color:var(--ink-soft); flex-wrap:wrap; }
+.legend-sw{ width:14px; height:14px; border-radius:4px; display:inline-block; margin-inline-end:4px; vertical-align:middle; }
+
+/* ================= SHOP / ACHIEVEMENTS ================= */
+.shop-grid, .badge-grid{ display:grid; grid-template-columns:1fr 1fr; gap:14px; padding:16px 18px 30px; }
+.shop-item{ background:var(--surface-2); border-radius:20px; padding:14px; text-align:center; box-shadow:0 4px 0 var(--line); }
+.shop-item .ic{ font-size:38px; margin-bottom:6px; }
+.shop-item .name{ font-weight:800; font-size:13px; margin-bottom:10px; }
+
+.badge{
+  background:linear-gradient(160deg, var(--surface), var(--surface-2)); border-radius:50%;
+  aspect-ratio:1; display:flex; flex-direction:column; align-items:center; justify-content:center;
+  padding:10px; text-align:center; gap:4px; position:relative; box-shadow:0 4px 0 var(--line);
+}
+.badge.locked{ opacity:.4; filter:grayscale(1); box-shadow:none; }
+.badge .ic{ font-size:28px; }
+.badge .t{ font-size:10.5px; font-weight:800; }
+.badge::after{ content:''; position:absolute; inset:6px; border-radius:50%; border:2px dashed color-mix(in srgb, var(--accent-2) 60%, transparent); }
+
+/* ================= MODAL ================= */
+.modal-overlay{
+  position:fixed; inset:0; background:rgba(20,14,8,.55); display:none; align-items:center; justify-content:center;
+  z-index:50; padding:20px;
+}
+.modal-overlay.show{ display:flex; }
+.modal-card{ background:var(--surface); border-radius:24px; padding:22px; max-width:340px; width:100%; text-align:center; box-shadow:0 8px 0 var(--line), var(--shadow); }
+
+/* ================= CONFETTI ================= */
+#confetti-layer{ position:fixed; inset:0; pointer-events:none; z-index:60; overflow:hidden; }
+.confetto{ position:absolute; top:-10px; border-radius:2px; animation:fall linear forwards; }
+@keyframes fall{ to{ transform:translateY(110vh) rotate(540deg); opacity:.9; } }
+
+/* ================= TOAST ================= */
+#toast-layer{ position:fixed; top:14px; left:50%; transform:translateX(-50%); z-index:70; display:flex; flex-direction:column; gap:8px; align-items:center; width:100%; max-width:440px; padding:0 16px; pointer-events:none; }
+.toast{
+  direction:rtl; background:var(--surface); border:2px solid var(--accent-2); border-radius:16px;
+  padding:10px 16px; box-shadow:var(--shadow); display:flex; align-items:center; gap:10px;
+  font-weight:800; font-size:14px; color:var(--ink);
+  opacity:0; transform:translateY(-14px); animation:toastIn .35s ease forwards, toastOut .35s ease forwards 2.6s;
+}
+.toast .ic{ font-size:22px; }
+@keyframes toastIn{ to{ opacity:1; transform:translateY(0);} }
+@keyframes toastOut{ to{ opacity:0; transform:translateY(-14px);} }
+
+.empty-note{ text-align:center; color:var(--ink-soft); font-size:13px; padding:30px 20px; }
+.section-title{ padding:16px 20px 4px; font-family:var(--font-display); font-size:20px; }
+.subtle{ color:var(--ink-soft); font-size:13px; padding:0 20px; }
+</style>
+
+<div id="shell" dir="rtl" lang="he">
+
+  <!-- ============ HOME ============ -->
+  <section class="screen active" id="screen-home">
+    <div class="topbar">
+      <button class="iconbtn" id="btn-sound" title="השתקה">🔊</button>
+      <div class="status-row">
+        <div class="status-pill">🪙 <span id="hd-coins" class="tnum">0</span></div>
+        <div class="status-pill">🔥 <span id="hd-streak" class="tnum">0</span></div>
+      </div>
+    </div>
+    <div class="home-hero">
+      <div class="companion-badge" id="home-companion">🧭</div>
+      <h1 class="home-title">אי הכפל</h1>
+      <div class="home-rank" id="home-rank">מגלה טירון</div>
+    </div>
+    <div class="xpbar-wrap">
+      <div class="xpbar"><i id="xp-fill" style="width:0%"></i></div>
+      <div class="xplabel"><span id="xp-text">0 / 100</span><span>נקודות ניסיון</span></div>
+    </div>
+    <div class="home-cta">
+      <button class="btn btn-primary btn-block" id="btn-continue" style="font-size:18px;padding:16px;">🗺️ המשך במסע</button>
+    </div>
+    <div class="grid2">
+      <div class="tile" data-nav="map"><div class="ic">🗺️</div><div class="lb">מפת המסע</div></div>
+      <div class="tile" data-nav="mastery"><div class="ic">🎯</div><div class="lb">מפת השליטה</div></div>
+      <div class="tile" data-nav="shop"><div class="ic">🛒</div><div class="lb">חנות הסוחר</div></div>
+      <div class="tile" data-nav="badges"><div class="ic">🎖️</div><div class="lb">תגי הגלאי</div></div>
+    </div>
+  </section>
+
+  <!-- ============ MAP ============ -->
+  <section class="screen" id="screen-map">
+    <div class="topbar">
+      <button class="iconbtn" data-nav="home"><span class="chev">›</span></button>
+      <b class="display" style="font-size:18px;">מפת המסע</b>
+      <span style="width:40px;"></span>
+    </div>
+    <div class="trail-wrap" id="trail-wrap"></div>
+  </section>
+
+  <!-- ============ REGION INTRO ============ -->
+  <section class="screen" id="screen-intro">
+    <div class="topbar">
+      <button class="iconbtn" data-nav="map"><span class="chev">›</span></button>
+      <b class="display" id="intro-title" style="font-size:18px;">אזור</b>
+      <span style="width:40px;"></span>
+    </div>
+    <div style="padding:18px 18px 30px;">
+      <div class="pcard" id="intro-card">
+        <div class="region-strip" id="intro-strip"></div>
+        <div id="intro-tagline" class="subtle" style="padding:0;"></div>
+        <ul class="tip-list" id="intro-tips"></ul>
+        <div class="array-demo" id="intro-array"></div>
+        <div class="mascot-tip" id="intro-focus" style="display:none;">
+          <div class="ic">🦜</div>
+          <div id="intro-focus-text"></div>
+        </div>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:12px; margin-top:18px;">
+        <button class="btn btn-primary btn-block" id="btn-start-practice">✏️ התחל תרגול</button>
+        <button class="btn btn-gold btn-block" id="btn-start-arcade" style="display:none;">⚡ אתגר הבזק</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ QUIZ ============ -->
+  <section class="screen" id="screen-quiz">
+    <div class="topbar">
+      <button class="iconbtn" data-nav="map"><span class="chev">›</span></button>
+      <div class="status-pill">🪙 <span id="quiz-coins" class="tnum">0</span></div>
+      <button class="iconbtn" id="btn-sound-quiz">🔊</button>
+    </div>
+    <div class="quiz-body">
+      <div class="progress-track" id="quiz-progress"></div>
+      <div class="question-wrap">
+        <div class="q-label" id="quiz-region-name">אזור</div>
+        <div class="q-expr tnum" id="quiz-expr">? × ?</div>
+        <div class="q-hint" id="quiz-hint"></div>
+        <div class="answers-grid" id="quiz-answers"></div>
+        <div class="feedback-banner" id="quiz-feedback"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ARCADE ============ -->
+  <section class="screen" id="screen-arcade">
+    <div class="topbar">
+      <button class="iconbtn" data-nav="map"><span class="chev">›</span></button>
+      <b class="display" style="font-size:16px;">⚡ אתגר הבזק</b>
+      <div class="status-pill">🪙 <span id="arcade-coins" class="tnum">0</span></div>
+    </div>
+    <div class="quiz-body" style="align-items:center;">
+      <div class="timer-ring">
+        <svg viewBox="0 0 80 80"><circle class="bgc" cx="40" cy="40" r="34"></circle><circle class="fgc" id="arcade-ring" cx="40" cy="40" r="34" stroke-dasharray="213.6" stroke-dashoffset="0"></circle></svg>
+        <div class="timer-num tnum" id="arcade-time">45</div>
+      </div>
+      <div class="combo-flame" id="arcade-combo"></div>
+      <div class="question-wrap" style="margin-top:6px;">
+        <div class="q-expr tnum" id="arcade-expr">? × ?</div>
+        <div class="answers-grid" id="arcade-answers" style="grid-template-columns:1fr 1fr 1fr;"></div>
+      </div>
+      <div class="status-pill" style="margin-top:16px;">⭐ ניקוד: <span id="arcade-score" class="tnum">0</span></div>
+    </div>
+  </section>
+
+  <!-- ============ RESULT ============ -->
+  <section class="screen" id="screen-result">
+    <div class="result-wrap">
+      <div id="result-title" class="display" style="font-size:24px;"></div>
+      <div class="stars-big" id="result-stars"></div>
+      <div id="result-msg" class="subtle" style="padding:0;"></div>
+      <div class="result-stat-row">
+        <div class="result-stat">✅ <span id="result-correct" class="tnum">0</span><small>נכונות</small></div>
+        <div class="result-stat">🪙 <span id="result-coins" class="tnum">0</span><small>מטבעות</small></div>
+        <div class="result-stat">✨ <span id="result-xp" class="tnum">0</span><small>ניסיון</small></div>
+      </div>
+      <div id="result-unlock" class="mascot-tip" style="display:none; text-align:right;"><div class="ic">🔓</div><div id="result-unlock-text"></div></div>
+      <div style="display:flex; gap:10px; margin-top:18px; width:100%;">
+        <button class="btn btn-ghost" style="flex:1;" data-nav="map">🗺️ מפת המסע</button>
+        <button class="btn btn-primary" style="flex:1;" id="btn-retry-region">🔁 שוב</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MASTERY ============ -->
+  <section class="screen" id="screen-mastery">
+    <div class="topbar">
+      <button class="iconbtn" data-nav="home"><span class="chev">›</span></button>
+      <b class="display" style="font-size:18px;">מפת השליטה</b>
+      <span style="width:40px;"></span>
+    </div>
+    <p class="subtle">כל תא הוא עובדת כפל. גע בתא כדי לתרגל אותו לבד. ככל שתתרגלו, התא יזהיר יותר!</p>
+    <div class="mastery-wrap">
+      <div class="mastery-table" id="mastery-table"></div>
+      <div class="legend-row">
+        <span><i class="legend-sw" style="background:#C7D2E8"></i>חדש</span>
+        <span><i class="legend-sw" style="background:#FFC93C"></i>בלמידה</span>
+        <span><i class="legend-sw" style="background:#3DDC72"></i>שולט!</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SHOP ============ -->
+  <section class="screen" id="screen-shop">
+    <div class="topbar">
+      <button class="iconbtn" data-nav="home"><span class="chev">›</span></button>
+      <b class="display" style="font-size:18px;">חנות הסוחר</b>
+      <div class="status-pill">🪙 <span id="shop-coins" class="tnum">0</span></div>
+    </div>
+    <p class="subtle">קנו בני לוויה לאי בעזרת מטבעות הזהב שאספתם!</p>
+    <div class="shop-grid" id="shop-grid"></div>
+  </section>
+
+  <!-- ============ BADGES ============ -->
+  <section class="screen" id="screen-badges">
+    <div class="topbar">
+      <button class="iconbtn" data-nav="home"><span class="chev">›</span></button>
+      <b class="display" style="font-size:18px;">תגי הגלאי</b>
+      <span style="width:40px;"></span>
+    </div>
+    <p class="subtle" id="badges-count"></p>
+    <div class="badge-grid" id="badges-grid"></div>
+  </section>
+
+</div>
+
+<div class="modal-overlay" id="drill-modal" dir="rtl" lang="he">
+  <div class="modal-card">
+    <div class="q-expr tnum" id="drill-expr" style="font-size:40px;">? × ?</div>
+    <div class="answers-grid" id="drill-answers" style="margin-top:16px;"></div>
+    <div class="feedback-banner" id="drill-feedback" style="margin-top:12px;"></div>
+    <button class="btn btn-ghost btn-block" id="drill-close" style="margin-top:14px;">סגור</button>
+  </div>
+</div>
+
+<div id="confetti-layer"></div>
+<div id="toast-layer" dir="rtl" lang="he"></div>
+
+<script>
+(function(){
+"use strict";
+
+/* ================= DATA ================= */
+var TIPS = {
+  2:"כפל ב-2 זה להוסיף את המספר לעצמו! למשל 2×6 = 6+6 = 12.",
+  3:"כפל ב-3? זה כמו כפל ב-2, ועוד פעם אחת נוספת של המספר. 3×4 = (2×4)+4 = 12.",
+  4:"כפל ב-4 זה להכפיל פעמיים ברצף! 4×6: קודם 6→12, ואז 12→24.",
+  5:"כפל ב-5 תמיד מסתיים ב-0 או ב-5. אפשר גם לספור בקפיצות של 5: 5, 10, 15...",
+  6:"תוצאה של כפל ב-6 תמיד זוגית. נסו לחשוב על זוגות-זוגות.",
+  7:"לוח ה-7 נחשב למאתגר במיוחד - הוא דורש הכי הרבה תרגול, קחו את הזמן!",
+  8:"כפל ב-8 זה להכפיל פי 2 שלוש פעמים ברצף. 8×5: 5→10→20→40.",
+  9:"טריק אצבעות ל-9: הורידו את האצבע שמספרה X - מספר האצבעות משני הצדדים הוא התשובה!",
+  10:"כפל ב-10 הכי קל שיש - רק הוסיפו 0 בסוף המספר!"
+};
+
+var REGIONS = [
+  {id:1, name:"חוף הפתיחה", sub:"היכרות עם המים הרגועים", tables:[2,5,10], color:"var(--r-beach)", dark:"var(--r-beach-dark)", soft:"var(--r-beach-soft)", icon:"🏖️", demo:{a:5,b:4,ic:"🐚"}, len:10},
+  {id:2, name:"יער הבמבוק", sub:"עומק מטה, בין העצים", tables:[3,4], color:"var(--r-jungle)", dark:"var(--r-jungle-dark)", soft:"var(--r-jungle-soft)", icon:"🌴", demo:{a:4,b:6,ic:"🍃"}, len:10},
+  {id:3, name:"הרי הערפל", sub:"שבילים תלולים ומתפתלים", tables:[6,9], color:"var(--r-mountain)", dark:"var(--r-mountain-dark)", soft:"var(--r-mountain-soft)", icon:"⛰️", demo:{a:9,b:4,ic:"🪨"}, len:10},
+  {id:4, name:"געש האש", sub:"האתגר הכי לוהט באי", tables:[7,8], color:"var(--r-volcano)", dark:"var(--r-volcano-dark)", soft:"var(--r-volcano-soft)", icon:"🌋", demo:{a:7,b:6,ic:"🔥"}, len:10},
+  {id:5, name:"מקדש האוצר", sub:"כל הלוחות ביחד - אתגר-על", tables:[2,3,4,5,6,7,8,9], color:"var(--r-temple)", dark:"var(--r-temple-dark)", soft:"var(--r-temple-soft)", icon:"🏛️", demo:null, len:12}
+];
+
+var COMPANIONS = [
+  {id:"compass", name:"מצפן הזהב", icon:"🧭", price:0},
+  {id:"parrot", name:"פצפון התוכי", icon:"🦜", price:20},
+  {id:"monkey", name:"קופיקו", icon:"🐒", price:40},
+  {id:"turtle", name:"שריונית", icon:"🐢", price:60},
+  {id:"gecko", name:"לטאון הלבה", icon:"🦎", price:90},
+  {id:"owl", name:"פרופסור ינשוף", icon:"🦉", price:130},
+  {id:"dolphin", name:"דולפי", icon:"🐬", price:170},
+  {id:"lion", name:"אריה המקדש", icon:"🦁", price:250}
+];
+
+var LEVELS = [
+  {min:0, title:"מגלה טירון"},
+  {min:100, title:"נווט מתחיל"},
+  {min:250, title:"חוקר אמיץ"},
+  {min:500, title:"קברניט הים"},
+  {min:900, title:"אלוף האי"},
+  {min:1500, title:"אגדת אי הכפל"}
+];
+
+var BADGES = [
+  {id:"first_step", ic:"👣", t:"צעד ראשון", cond:function(s){return s.stats.totalCorrect>=1;}},
+  {id:"streak5", ic:"🔥", t:"רצף של 5", cond:function(s){return s.bestStreak>=5;}},
+  {id:"streak10", ic:"💥", t:"רצף של 10", cond:function(s){return s.bestStreak>=10;}},
+  {id:"streak20", ic:"🌟", t:"רצף אגדי", cond:function(s){return s.bestStreak>=20;}},
+  {id:"coins100", ic:"💰", t:"אספן זהב", cond:function(s){return s.stats.totalCoinsEarned>=100;}},
+  {id:"arcade_hero", ic:"⚡", t:"גיבור ההבזק", cond:function(s){return s.stats.bestArcadeScore>=15;}},
+  {id:"all_regions", ic:"👑", t:"אלוף אי הכפל", cond:function(s){return REGIONS.every(function(r){return (s.regionStars[r.id]||0)>=1;});}},
+  {id:"mastery_full", ic:"🧠", t:"מוח-על", cond:function(s){return allFactsMastered(s);}}
+];
+[2,3,4,5,6,7,8,9].forEach(function(t){
+  BADGES.push({id:"table_"+t, ic:"🎖️", t:"אלוף לוח ה-"+t, cond:function(s){return tableMastered(s,t);}});
+});
+
+/* ================= STATE ================= */
+var DEFAULT_STATE = {
+  xp:0, coins:0,
+  regionStars:{}, regionUnlocked:{1:true},
+  factBox:{},
+  badges:[],
+  bestStreak:0, curStreak:0,
+  companion:"compass", ownedCompanions:["compass"],
+  soundOn:true,
+  stats:{totalCorrect:0, totalCoinsEarned:0, bestArcadeScore:0}
+};
+var S = loadState();
+
+function loadState(){
+  try{
+    var raw = localStorage.getItem("kefel_island_v1");
+    if(!raw) return JSON.parse(JSON.stringify(DEFAULT_STATE));
+    var parsed = JSON.parse(raw);
+    var merged = JSON.parse(JSON.stringify(DEFAULT_STATE));
+    for(var k in parsed){ merged[k]=parsed[k]; }
+    merged.stats = Object.assign({}, DEFAULT_STATE.stats, parsed.stats||{});
+    return merged;
+  }catch(e){ return JSON.parse(JSON.stringify(DEFAULT_STATE)); }
+}
+function saveState(){
+  try{ localStorage.setItem("kefel_island_v1", JSON.stringify(S)); }catch(e){}
+}
+
+function factKey(a,b){ var lo=Math.min(a,b), hi=Math.max(a,b); return lo+"-"+hi; }
+function getBox(a,b){ var k=factKey(a,b); return (S.factBox[k]&&S.factBox[k].box) || 1; }
+function bumpBox(a,b,correct){
+  var k=factKey(a,b);
+  var cur = S.factBox[k]||{box:1};
+  cur.box = correct ? Math.min(5, cur.box+1) : 1;
+  S.factBox[k]=cur;
+}
+function tableMastered(s,t){
+  for(var b=2;b<=10;b++){ if(t===b) continue; var k=factKey(t,b); if(!(s.factBox[k]&&s.factBox[k].box>=5)) return false; }
+  var kk=factKey(t,t); if(!(s.factBox[kk]&&s.factBox[kk].box>=5)) return false;
+  return true;
+}
+function allFactsMastered(s){
+  for(var a=2;a<=9;a++){ for(var b=a;b<=10;b++){ var k=factKey(a,b); if(!(s.factBox[k]&&s.factBox[k].box>=5)) return false; } }
+  return true;
+}
+
+function regionPool(region){
+  var set = {};
+  region.tables.forEach(function(t){
+    for(var b=2;b<=10;b++){
+      var lo=Math.min(t,b), hi=Math.max(t,b);
+      set[lo+"-"+hi] = [lo,hi];
+    }
+  });
+  return Object.keys(set).map(function(k){ return set[k]; });
+}
+function allUnlockedPool(){
+  var set = {};
+  REGIONS.forEach(function(r){
+    if(S.regionUnlocked[r.id]){
+      regionPool(r).forEach(function(p){ set[p[0]+"-"+p[1]] = p; });
+    }
+  });
+  return Object.keys(set).map(function(k){ return set[k]; });
+}
+function weightFor(a,b){ var box=getBox(a,b); return Math.pow(6-box, 1.6)+0.3; }
+function weightedPick(pool, excludeKeys){
+  var candidates = pool.filter(function(p){ return excludeKeys.indexOf(p[0]+"-"+p[1])===-1; });
+  if(candidates.length===0) candidates = pool;
+  var weights = candidates.map(function(p){ return weightFor(p[0],p[1]); });
+  var total = weights.reduce(function(a,b){return a+b;},0);
+  var r = Math.random()*total;
+  for(var i=0;i<candidates.length;i++){ r-=weights[i]; if(r<=0) return candidates[i]; }
+  return candidates[candidates.length-1];
+}
+function buildRound(pool, count){
+  var picked = [], recent = [];
+  var avail = pool.slice();
+  for(var i=0;i<count;i++){
+    var pick = weightedPick(avail, recent);
+    picked.push(pick);
+    recent.push(pick[0]+"-"+pick[1]);
+    if(recent.length>3) recent.shift();
+  }
+  return picked;
+}
+function makeDistractors(a,b,correct){
+  var cand = new Set();
+  [a*(b-1), a*(b+1), (a-1)*b, (a+1)*b, correct-a, correct+a, correct-b, correct+b].forEach(function(v){
+    if(v>0 && v!==correct && v<150) cand.add(v);
+  });
+  if(String(correct).length===2){
+    var rev = parseInt(String(correct).split("").reverse().join(""),10);
+    if(rev>0 && rev!==correct) cand.add(rev);
+  }
+  var arr = Array.from(cand);
+  for(var i=arr.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=arr[i]; arr[i]=arr[j]; arr[j]=t; }
+  while(arr.length<3){
+    var delta = 1+Math.floor(Math.random()*6);
+    var v = correct + (Math.random()<0.5? -delta: delta);
+    if(v>0 && v!==correct && arr.indexOf(v)===-1) arr.push(v);
+  }
+  return arr.slice(0,3);
+}
+function shuffle(arr){
+  arr = arr.slice();
+  for(var i=arr.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=arr[i]; arr[i]=arr[j]; arr[j]=t; }
+  return arr;
+}
+
+function xpLevel(xp){
+  var idx=0;
+  for(var i=0;i<LEVELS.length;i++){ if(xp>=LEVELS[i].min) idx=i; }
+  return idx;
+}
+
+/* ================= SOUND ================= */
+var actx=null;
+function ctx(){ if(!actx){ try{ actx = new (window.AudioContext||window.webkitAudioContext)(); }catch(e){} } return actx; }
+function tone(freq,dur,delay,type,gainV){
+  if(!S.soundOn) return;
+  var c = ctx(); if(!c) return;
+  delay = delay||0; type=type||"sine"; gainV = gainV===undefined?0.16:gainV;
+  var t0 = c.currentTime+delay;
+  var osc = c.createOscillator(); var g = c.createGain();
+  osc.type=type; osc.frequency.setValueAtTime(freq,t0);
+  g.gain.setValueAtTime(0,t0);
+  g.gain.linearRampToValueAtTime(gainV,t0+0.015);
+  g.gain.exponentialRampToValueAtTime(0.001,t0+dur);
+  osc.connect(g); g.connect(c.destination);
+  osc.start(t0); osc.stop(t0+dur+0.02);
+}
+function playCorrect(){ tone(660,.14,0,"triangle"); tone(880,.18,.09,"triangle"); }
+function playWrong(){ tone(180,.28,0,"sine",0.14); }
+function playCoin(){ tone(1200,.09,0,"square",0.09); }
+function playLevelUp(){ [523,659,784,1047].forEach(function(f,i){ tone(f,.2,i*0.1,"triangle"); }); }
+function playClick(){ tone(500,.05,0,"sine",0.06); }
+
+/* ================= CONFETTI ================= */
+function confetti(colors, n){
+  if(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  var layer = document.getElementById("confetti-layer");
+  colors = colors || ["#1E8F82","#C98A15","#D65A34","#3F7D4F"];
+  n = n||36;
+  for(var i=0;i<n;i++){
+    var el = document.createElement("div");
+    el.className="confetto";
+    var size = 5+Math.random()*6;
+    el.style.width=size+"px"; el.style.height=(size*0.5+4)+"px";
+    el.style.left=(Math.random()*100)+"vw";
+    el.style.background = colors[Math.floor(Math.random()*colors.length)];
+    var dur = 1.6+Math.random()*1.2;
+    el.style.animationDuration = dur+"s";
+    el.style.animationDelay = (Math.random()*0.3)+"s";
+    layer.appendChild(el);
+    (function(node,d){ setTimeout(function(){ node.remove(); }, (d+0.5)*1000); })(el,dur);
+  }
+}
+
+/* ================= NAV ================= */
+var screens = ["home","map","intro","quiz","arcade","result","mastery","shop","badges"];
+function showScreen(name){
+  screens.forEach(function(s){ document.getElementById("screen-"+s).classList.toggle("active", s===name); });
+  window.scrollTo(0,0);
+  if(name==="home") renderHome();
+  if(name==="map") renderMap();
+  if(name==="mastery") renderMastery();
+  if(name==="shop") renderShop();
+  if(name==="badges") renderBadges();
+}
+document.addEventListener("click", function(e){
+  var navEl = e.target.closest("[data-nav]");
+  if(navEl){ playClick(); showScreen(navEl.getAttribute("data-nav")); }
+});
+
+/* ================= HOME ================= */
+function renderHome(){
+  document.getElementById("hd-coins").textContent = S.coins;
+  document.getElementById("hd-streak").textContent = S.bestStreak;
+  document.getElementById("home-companion").textContent = (COMPANIONS.find(function(c){return c.id===S.companion;})||COMPANIONS[0]).icon;
+  var li = xpLevel(S.xp);
+  document.getElementById("home-rank").textContent = LEVELS[li].title;
+  var next = LEVELS[li+1];
+  var base = LEVELS[li].min;
+  var span = next ? (next.min-base) : 500;
+  var prog = next ? Math.min(1,(S.xp-base)/span) : 1;
+  document.getElementById("xp-fill").style.width = (prog*100)+"%";
+  document.getElementById("xp-text").textContent = S.xp + (next? " / "+next.min : " (מקסימום!)");
+  updateSoundIcons();
+}
+document.getElementById("btn-continue").addEventListener("click", function(){
+  var next = REGIONS.find(function(r){ return S.regionUnlocked[r.id] && (S.regionStars[r.id]||0)<3; }) || REGIONS.find(function(r){return S.regionUnlocked[r.id];}) || REGIONS[0];
+  openRegion(next.id);
+});
+function updateSoundIcons(){
+  var icon = S.soundOn? "🔊":"🔈";
+  document.getElementById("btn-sound").textContent = icon;
+  document.getElementById("btn-sound-quiz").textContent = icon;
+}
+document.getElementById("btn-sound").addEventListener("click", function(){ S.soundOn=!S.soundOn; saveState(); updateSoundIcons(); });
+document.getElementById("btn-sound-quiz").addEventListener("click", function(){ S.soundOn=!S.soundOn; saveState(); updateSoundIcons(); });
+
+/* ================= MAP ================= */
+function renderMap(){
+  var wrap = document.getElementById("trail-wrap");
+  wrap.innerHTML = "";
+  REGIONS.forEach(function(r){
+    var unlocked = !!S.regionUnlocked[r.id];
+    var stars = S.regionStars[r.id]||0;
+    var node = document.createElement("div");
+    node.className="node";
+    var disc = document.createElement("div");
+    disc.className="node-disc"+(unlocked?"":" locked");
+    if(unlocked){ disc.style.background = r.color; disc.style.boxShadow = "0 5px 0 "+r.dark; }
+    disc.innerHTML = unlocked ? r.icon : "";
+    if(!unlocked){ var lc=document.createElement("div"); lc.className="lock-chip"; lc.textContent="🔒"; disc.appendChild(lc); }
+    var card = document.createElement("div");
+    card.className="node-card";
+    if(unlocked){ card.style.background = r.soft; card.style.boxShadow = "0 4px 0 "+r.dark; }
+    card.innerHTML =
+      '<div class="node-name" style="color:'+r.color+'">'+r.name+'</div>'+
+      '<div class="node-sub">'+r.sub+' · לוחות '+r.tables.join(", ")+'</div>'+
+      '<div class="stars-row">'+[1,2,3].map(function(i){return '<span class="star'+(i<=stars?" on":"")+'">★</span>';}).join("")+'</div>';
+    node.appendChild(disc); node.appendChild(card);
+    if(unlocked){ node.addEventListener("click", function(){ openRegion(r.id); }); }
+    wrap.appendChild(node);
+  });
+}
+
+/* ================= REGION INTRO ================= */
+var currentRegion = null;
+function openRegion(id){
+  currentRegion = REGIONS.find(function(r){return r.id===id;});
+  document.getElementById("intro-title").textContent = currentRegion.icon+" "+currentRegion.name;
+  document.getElementById("intro-strip").style.background = currentRegion.color;
+  var introCard = document.getElementById("intro-card");
+  introCard.style.background = currentRegion.soft;
+  introCard.style.boxShadow = "0 5px 0 "+currentRegion.dark+", var(--shadow-sm)";
+  document.getElementById("intro-tagline").textContent = currentRegion.sub+" — לוחות: "+currentRegion.tables.join(", ");
+  var tipsEl = document.getElementById("intro-tips");
+  tipsEl.innerHTML = currentRegion.tables.map(function(t){
+    return '<li><b>לוח ה-'+t+':</b> '+TIPS[t]+'</li>';
+  }).join("");
+
+  var demoEl = document.getElementById("intro-array");
+  demoEl.innerHTML = "";
+  if(currentRegion.demo){
+    renderArrayDemo(demoEl, currentRegion.demo.a, currentRegion.demo.b, currentRegion.demo.ic, currentRegion.color);
+  } else {
+    var weakest = weakestFacts(3);
+    var focus = document.getElementById("intro-focus");
+    if(weakest.length){
+      focus.style.display="flex";
+      document.getElementById("intro-focus-text").innerHTML = "פצפון ממליץ להתמקד היום ב: <b>"+weakest.map(function(f){return f[0]+"×"+f[1];}).join(", ")+"</b>";
+    } else { focus.style.display="none"; }
+  }
+  document.getElementById("btn-start-arcade").style.display = (S.regionStars[id]||0)>=1 ? "inline-flex":"none";
+  showScreen("intro");
+}
+function weakestFacts(n){
+  var pool = allUnlockedPool();
+  pool.sort(function(x,y){ return getBox(x[0],x[1]) - getBox(y[0],y[1]); });
+  return pool.slice(0,n);
+}
+function renderArrayDemo(el, a, b, icon, color){
+  el.innerHTML = '<div class="array-grid" id="demo-grid" style="grid-template-columns:repeat('+b+',22px);"></div><div class="array-eq" id="demo-eq" style="color:'+color+'"></div>';
+  var grid = document.getElementById("demo-grid");
+  var eq = document.getElementById("demo-eq");
+  var total=0, delay=0;
+  for(var r=0;r<a;r++){
+    (function(rowIndex){
+      setTimeout(function(){
+        for(var c=0;c<b;c++){
+          let cell=document.createElement("div"); cell.className="array-cell"; cell.textContent=icon;
+          cell.style.animationDelay=(c*0.02)+"s";
+          grid.appendChild(cell);
+          requestAnimationFrame(function(){cell.classList.add("show");});
+        }
+        total += b;
+        eq.textContent = (rowIndex+1)+" שורות × "+b+" = "+total;
+      }, rowIndex*260);
+    })(r);
+  }
+}
+document.getElementById("btn-start-practice").addEventListener("click", function(){ startPractice(currentRegion); });
+document.getElementById("btn-start-arcade").addEventListener("click", function(){ startArcade(); });
+
+/* ================= QUIZ ENGINE ================= */
+var quiz = null;
+function startPractice(region){
+  var pool = regionPool(region);
+  quiz = {
+    region: region,
+    questions: buildRound(pool, region.len),
+    idx: 0,
+    firstTryCorrect: 0,
+    coinsEarned: 0,
+    xpEarned: 0,
+    reviewQueue: [],
+    phase: "primary"
+  };
+  document.getElementById("quiz-region-name").textContent = region.icon+" "+region.name;
+  document.getElementById("screen-quiz").style.background = region.soft;
+  renderProgress();
+  askNext();
+  showScreen("quiz");
+}
+function renderProgress(){
+  var track = document.getElementById("quiz-progress");
+  track.innerHTML="";
+  var total = quiz.region.len;
+  for(var i=0;i<total;i++){
+    var seg=document.createElement("div"); seg.className="progress-seg"; seg.dataset.i=i;
+    track.appendChild(seg);
+  }
+}
+function markSeg(i, state){
+  var seg = document.querySelector('.progress-seg[data-i="'+i+'"]');
+  if(seg){ seg.className="progress-seg "+state; }
+}
+function askNext(){
+  document.getElementById("quiz-feedback").className="feedback-banner";
+  document.getElementById("quiz-hint").textContent="";
+  if(quiz.phase==="primary" && quiz.idx>=quiz.questions.length){
+    if(quiz.reviewQueue.length){ quiz.phase="review"; quiz.idx=0; }
+    else { return finishRound(); }
+  }
+  if(quiz.phase==="review" && quiz.idx>=quiz.reviewQueue.length){ return finishRound(); }
+
+  var pair = quiz.phase==="primary" ? quiz.questions[quiz.idx] : quiz.reviewQueue[quiz.idx];
+  var flip = Math.random()<0.5;
+  var a = flip? pair[1]:pair[0], b = flip? pair[0]:pair[1];
+  var correct = a*b;
+  var options = shuffle(makeDistractors(a,b,correct).concat([correct]));
+  document.getElementById("quiz-expr").textContent = a+" × "+b;
+  if(quiz.phase==="review"){ document.getElementById("quiz-hint").textContent = "🔁 חזרה על שאלה שכדאי לחזק"; }
+  var answersEl = document.getElementById("quiz-answers");
+  answersEl.innerHTML="";
+  options.forEach(function(opt){
+    var btn=document.createElement("button");
+    btn.className="answer-btn tnum"; btn.textContent=opt;
+    btn.addEventListener("click", function(){ handleAnswer(btn, opt, correct, a, b, answersEl); });
+    answersEl.appendChild(btn);
+  });
+}
+function handleAnswer(btn, chosen, correct, a, b, answersEl){
+  Array.from(answersEl.children).forEach(function(c){ c.disabled=true; if(c!==btn) c.classList.add("dim"); });
+  var isCorrect = chosen===correct;
+  var fb = document.getElementById("quiz-feedback");
+  if(isCorrect){
+    btn.classList.add("correct");
+    playCorrect();
+    S.curStreak++; S.bestStreak=Math.max(S.bestStreak,S.curStreak);
+    S.stats.totalCorrect++;
+    var isRetry = quiz.phase==="review";
+    var xpGain = isRetry?3:8, coinGain = isRetry?1:3;
+    S.xp+=xpGain; S.coins+=coinGain; S.stats.totalCoinsEarned+=coinGain;
+    quiz.xpEarned+=xpGain; quiz.coinsEarned+=coinGain;
+    fb.textContent = pick(["מעולה! 🎉","כל הכבוד! 🌟","מדויק! 💪","וואו, מהר! ⚡"]);
+    fb.classList.add("show","good");
+    if(quiz.phase==="primary"){ quiz.firstTryCorrect++; markSeg(quiz.idx,"correct"); }
+    bumpBox(a,b,true);
+  } else {
+    btn.classList.add("wrong");
+    var correctBtn = Array.from(answersEl.children).find(function(c){ return parseInt(c.textContent,10)===correct; });
+    if(correctBtn) correctBtn.classList.add("correct");
+    playWrong();
+    S.curStreak=0;
+    var tipTable = quiz.region.tables.indexOf(a)>=0 ? a : (quiz.region.tables.indexOf(b)>=0 ? b : Math.max(a,b));
+    fb.textContent = a+" × "+b+" = "+correct+". "+(TIPS[tipTable]||"");
+    fb.classList.add("show","bad");
+    if(quiz.phase==="primary"){ markSeg(quiz.idx,"wrong"); quiz.reviewQueue.push([a,b]); }
+    bumpBox(a,b,false);
+  }
+  saveState();
+  checkBadges();
+  setTimeout(function(){
+    quiz.idx++;
+    askNext();
+  }, isCorrect?900:1900);
+}
+function pick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+
+function finishRound(){
+  var region = quiz.region;
+  var acc = quiz.firstTryCorrect / region.len;
+  var stars = acc>=0.9?3: acc>=0.7?2: acc>=0.5?1:0;
+  var prevStars = S.regionStars[region.id]||0;
+  var improved = stars>prevStars;
+  if(improved){ S.regionStars[region.id]=stars; }
+  var bonus = stars*10;
+  S.coins += bonus; S.stats.totalCoinsEarned += bonus; quiz.coinsEarned += bonus;
+
+  var unlockedNew = null;
+  if(stars>=1){
+    var idx = REGIONS.findIndex(function(r){return r.id===region.id;});
+    var nxt = REGIONS[idx+1];
+    if(nxt && !S.regionUnlocked[nxt.id]){ S.regionUnlocked[nxt.id]=true; unlockedNew=nxt; }
+  }
+  saveState();
+  checkBadges();
+
+  document.getElementById("result-title").textContent = stars>0? "השלב הושלם!" : "כמעט הצלחתם!";
+  var starsEl = document.getElementById("result-stars");
+  starsEl.innerHTML = [1,2,3].map(function(i){ return '<span class="'+(i<=stars?"on":"off")+'">★</span>'; }).join("");
+  setTimeout(function(){ if(stars>0){ confetti(); playLevelUp(); } },300);
+  document.getElementById("result-msg").textContent = stars>0
+    ? "ענית נכון על "+quiz.firstTryCorrect+" מתוך "+region.len+" בניסיון ראשון."
+    : "עניתם נכון על "+quiz.firstTryCorrect+" מתוך "+region.len+". נסו שוב - אתם ממש קרובים!";
+  document.getElementById("result-correct").textContent = quiz.firstTryCorrect+"/"+region.len;
+  document.getElementById("result-coins").textContent = quiz.coinsEarned;
+  document.getElementById("result-xp").textContent = quiz.xpEarned;
+  var unlockEl = document.getElementById("result-unlock");
+  if(unlockedNew){ unlockEl.style.display="flex"; document.getElementById("result-unlock-text").innerHTML = "פתחתם אזור חדש: <b>"+unlockedNew.icon+" "+unlockedNew.name+"</b>!"; }
+  else { unlockEl.style.display="none"; }
+  document.getElementById("btn-retry-region").onclick = function(){ startPractice(region); };
+  showScreen("result");
+}
+
+/* ================= ARCADE ================= */
+var arcade = null;
+function startArcade(){
+  arcade = { time:45, score:0, combo:0, timer:null, running:true };
+  document.getElementById("arcade-score").textContent="0";
+  document.getElementById("arcade-coins").textContent = S.coins;
+  updateArcadeRing();
+  askArcadeQuestion();
+  showScreen("arcade");
+  arcade.timer = setInterval(function(){
+    arcade.time--;
+    document.getElementById("arcade-time").textContent = arcade.time;
+    updateArcadeRing();
+    if(arcade.time<=0){ endArcade(); }
+  },1000);
+}
+function updateArcadeRing(){
+  var circ = 213.6;
+  var frac = Math.max(0,arcade.time/45);
+  document.getElementById("arcade-ring").style.strokeDashoffset = (circ*(1-frac));
+}
+function askArcadeQuestion(){
+  var pool = allUnlockedPool();
+  var pair = weightedPick(pool, []);
+  var flip = Math.random()<0.5;
+  var a = flip?pair[1]:pair[0], b=flip?pair[0]:pair[1];
+  var correct = a*b;
+  var options = shuffle(makeDistractors(a,b,correct).slice(0,2).concat([correct]));
+  document.getElementById("arcade-expr").textContent = a+" × "+b;
+  var el = document.getElementById("arcade-answers");
+  el.innerHTML="";
+  options.forEach(function(opt){
+    var btn=document.createElement("button");
+    btn.className="answer-btn tnum"; btn.style.fontSize="20px"; btn.style.padding="14px 6px";
+    btn.textContent=opt;
+    btn.addEventListener("click", function(){
+      if(!arcade.running) return;
+      var ok = opt===correct;
+      bumpBox(a,b,ok);
+      if(ok){
+        arcade.combo++; arcade.score += 1+Math.floor(arcade.combo/3);
+        S.xp+=5; S.coins+=2; S.stats.totalCoinsEarned+=2;
+        playCorrect(); if(arcade.combo>0 && arcade.combo%5===0) playCoin();
+        btn.classList.add("correct");
+      } else {
+        arcade.combo=0; playWrong(); btn.classList.add("wrong");
+      }
+      document.getElementById("arcade-score").textContent = arcade.score;
+      document.getElementById("arcade-coins").textContent = S.coins;
+      document.getElementById("arcade-combo").textContent = arcade.combo>=3? ("🔥 קומבו x"+arcade.combo) : "";
+      saveState();
+      setTimeout(askArcadeQuestion, 260);
+    });
+    el.appendChild(btn);
+  });
+}
+function endArcade(){
+  arcade.running=false;
+  clearInterval(arcade.timer);
+  S.stats.bestArcadeScore = Math.max(S.stats.bestArcadeScore, arcade.score);
+  saveState();
+  checkBadges();
+  document.getElementById("result-title").textContent = "אתגר ההבזק הסתיים!";
+  document.getElementById("result-stars").innerHTML = "";
+  confetti(["#C98A15","#1E8F82"]); playLevelUp();
+  document.getElementById("result-msg").textContent = "השגתם "+arcade.score+" נקודות באתגר ההבזק!";
+  document.getElementById("result-correct").textContent = arcade.score;
+  document.getElementById("result-coins").textContent = arcade.score*2;
+  document.getElementById("result-xp").textContent = arcade.score*5;
+  document.getElementById("result-unlock").style.display="none";
+  document.getElementById("btn-retry-region").onclick = function(){ startArcade(); };
+  showScreen("result");
+}
+
+/* ================= MASTERY GRID ================= */
+function renderMastery(){
+  var wrap = document.getElementById("mastery-table");
+  wrap.innerHTML="";
+  for(var t=2;t<=9;t++){
+    var row = document.createElement("div"); row.className="mastery-row";
+    var label = document.createElement("div"); label.className="mastery-row-label"; label.textContent="×"+t;
+    var cells = document.createElement("div"); cells.className="mastery-cells";
+    for(var b=1;b<=10;b++){
+      var box = b===1 ? 5 : getBox(t,b);
+      var cell = document.createElement("div"); cell.className="mastery-cell";
+      cell.style.background = boxColor(box);
+      cell.textContent = b===1? "" : t*b;
+      cell.title = t+"×"+b;
+      if(b>1){ (function(tt,bb){ cell.addEventListener("click", function(){ openDrill(tt,bb); }); })(t,b); }
+      cells.appendChild(cell);
+    }
+    row.appendChild(label); row.appendChild(cells);
+    wrap.appendChild(row);
+  }
+}
+function boxColor(box){
+  var colors = ["#C7D2E8","#C7D2E8","#FFDD8A","#FFC93C","#FFA23C","#3DDC72"];
+  return colors[box]||colors[1];
+}
+function openDrill(a,b){
+  var correct=a*b;
+  var options = shuffle(makeDistractors(a,b,correct).concat([correct]));
+  document.getElementById("drill-expr").textContent = a+" × "+b;
+  var el = document.getElementById("drill-answers");
+  el.innerHTML="";
+  var fb = document.getElementById("drill-feedback"); fb.className="feedback-banner";
+  options.forEach(function(opt){
+    var btn=document.createElement("button"); btn.className="answer-btn tnum"; btn.textContent=opt;
+    btn.addEventListener("click", function(){
+      Array.from(el.children).forEach(function(c){c.disabled=true;});
+      var ok = opt===correct;
+      bumpBox(a,b,ok);
+      if(ok){ btn.classList.add("correct"); playCorrect(); fb.textContent="נכון! 🎉"; fb.classList.add("show","good"); S.xp+=4; S.coins+=1; }
+      else { btn.classList.add("wrong"); playWrong(); fb.textContent=a+"×"+b+" = "+correct; fb.classList.add("show","bad"); }
+      saveState(); checkBadges(); renderMastery();
+    });
+    el.appendChild(btn);
+  });
+  document.getElementById("drill-modal").classList.add("show");
+}
+document.getElementById("drill-close").addEventListener("click", function(){ document.getElementById("drill-modal").classList.remove("show"); });
+
+/* ================= SHOP ================= */
+function renderShop(){
+  document.getElementById("shop-coins").textContent = S.coins;
+  var grid = document.getElementById("shop-grid");
+  grid.innerHTML="";
+  COMPANIONS.forEach(function(c){
+    var owned = S.ownedCompanions.indexOf(c.id)>=0;
+    var selected = S.companion===c.id;
+    var el = document.createElement("div"); el.className="shop-item";
+    el.innerHTML = '<div class="ic">'+c.icon+'</div><div class="name">'+c.name+'</div>';
+    var btn = document.createElement("button");
+    btn.className = "btn "+(selected?"btn-ghost":"btn-gold")+" btn-block";
+    btn.style.fontSize="12px"; btn.style.padding="9px";
+    btn.textContent = selected? "נבחר ✓" : (owned? "בחר": "🪙 "+c.price);
+    btn.addEventListener("click", function(cc, bb){ return function(){
+      if(S.ownedCompanions.indexOf(cc.id)>=0){ S.companion=cc.id; saveState(); renderShop(); playClick(); return; }
+      if(S.coins>=cc.price){
+        S.coins-=cc.price; S.ownedCompanions.push(cc.id); S.companion=cc.id; saveState(); renderShop();
+        confetti(["#C98A15","#1E8F82"],18); playCoin();
+      } else {
+        bb.classList.add("shake");
+        setTimeout(function(){ bb.classList.remove("shake"); },400);
+      }
+    };})(c, btn);
+    el.appendChild(btn);
+    grid.appendChild(el);
+  });
+}
+
+/* ================= BADGES ================= */
+function checkBadges(){
+  var newly=[];
+  BADGES.forEach(function(b){
+    if(S.badges.indexOf(b.id)<0 && b.cond(S)){ S.badges.push(b.id); newly.push(b); }
+  });
+  if(newly.length){ saveState(); newly.forEach(showBadgeToast); }
+}
+function showBadgeToast(b){
+  var layer = document.getElementById("toast-layer");
+  var el = document.createElement("div");
+  el.className="toast";
+  el.innerHTML = '<span class="ic">'+b.ic+'</span><span>תג חדש נפתח: '+b.t+'!</span>';
+  layer.appendChild(el);
+  playCoin();
+  setTimeout(function(){ el.remove(); }, 3000);
+}
+function renderBadges(){
+  document.getElementById("badges-count").textContent = "צברתם "+S.badges.length+" מתוך "+BADGES.length+" תגים";
+  var grid = document.getElementById("badges-grid");
+  grid.innerHTML="";
+  BADGES.forEach(function(b){
+    var earned = S.badges.indexOf(b.id)>=0;
+    var el = document.createElement("div"); el.className="badge"+(earned?"":" locked");
+    el.innerHTML = '<div class="ic">'+b.ic+'</div><div class="t">'+b.t+'</div>';
+    grid.appendChild(el);
+  });
+}
+
+/* ================= INIT ================= */
+renderHome();
+updateSoundIcons();
+})();
+</script>
